@@ -52,7 +52,14 @@ module LogStasher
         {
           name: event.name,
           transaction_id: event.transaction_id,
-          allocations: event.try(:allocations) || 0
+        }.merge(allocations_event_data(event))
+      end
+
+      def allocations_event_data(event)
+        return {} unless event.respond_to?(:allocations)
+
+        {
+          allocations: event.allocations
         }
       end
 
