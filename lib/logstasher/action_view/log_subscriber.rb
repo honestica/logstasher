@@ -25,6 +25,7 @@ module LogStasher
         data = event.payload
 
         data.merge! event_data(event)
+        data.merge! allocations_event_data(event)
         data.merge! runtimes(event)
         data.merge! extract_data(data)
         data.merge! request_context
@@ -51,8 +52,8 @@ module LogStasher
       def event_data(event)
         {
           name: event.name,
-          transaction_id: event.transaction_id,
-        }.merge(allocations_event_data(event))
+          transaction_id: event.transaction_id
+        }
       end
 
       def allocations_event_data(event)
